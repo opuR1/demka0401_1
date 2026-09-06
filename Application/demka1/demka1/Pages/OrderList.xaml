@@ -24,9 +24,8 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Content="Add" Margin="10" x:Name="btnAdd" Height="25" Width="50" Background="{StaticResource AccentActionBackground}" FontSize="14" FontWeight="Bold" Click="btnAdd_Click"/>
-            <Button Content="Edit" x:Name="btnEdit"  Height="25" Width="50" Background="{StaticResource AccentActionBackground}" FontSize="14" FontWeight="Bold" Click="btnEdit_Click"/>
         </StackPanel>
-        <ListBox Grid.Row="1" x:Name="lbOrders" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+        <ListBox Grid.Row="1" x:Name="lbOrders" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" MouseDoubleClick="lbOrders_MouseDoubleClick">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -35,21 +34,21 @@
                             <ColumnDefinition Width="200"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
-                            <TextBlock Text="{Binding Partners.PartnerFullName}" FontSize="14" Margin="5"/>
-                            <TextBlock Text="{Binding Partners.PartnerAdress}" FontSize="14" Margin="5"/>
+                            <TextBlock Text="{Binding Partner.PartnerFullName}" FontSize="14" Margin="5"/>
+                            <TextBlock Text="{Binding Partner.PartnerAdress}" FontSize="14" Margin="5"/>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Тел. " FontSize="14" Margin="5"/>
-                                <TextBlock Text="{Binding Partners.Phone}" FontSize="14" Margin="5"/>
+                                <TextBlock Text="Тел. +7 " FontSize="14" Margin="5,5,0,5"/>
+                                <TextBlock Text="{Binding Partner.Phone}" FontSize="14" Margin="0,5,0,5"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Рейтинг: " FontSize="14" Margin="5"/>
-                                <TextBlock Text="{Binding Partners.Rating}" FontSize="14" Margin="5"/>
+                                <TextBlock Text="{Binding Partner.Rating}" FontSize="14" Margin="5"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
                             <TextBlock Text="Стоимость" FontSize="14" Margin="5"/>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding TotalPrice}" FontSize="14" Margin="5"/>
+                                <TextBlock Text="{Binding TotalPrice, StringFormat={}{0:N2}}" FontSize="14" Margin="5"/>
                                 <TextBlock Text="руб." FontSize="14" Margin="5"/>
                             </StackPanel>
                         </StackPanel>

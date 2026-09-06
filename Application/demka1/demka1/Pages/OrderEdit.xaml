@@ -9,9 +9,9 @@
       Title="OrderEdit" Background="{StaticResource MainBackground}">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="1" Orientation="Horizontal">
             <StackPanel Orientation="Vertical" Margin="10">
@@ -40,14 +40,22 @@
                 <ComboBox x:Name="cmbCity" Width="200" Margin="0,0,0,10"/>
                 <TextBox x:Name="tbStreet" Width="200" Margin="0,0,0,10" />
                 <TextBox x:Name="tbHouse" Width="200" Margin="0,0,0,10" />
-                <TextBox x:Name="tbRating" Width="200" Margin="0,0,0,10" />
+                <TextBox x:Name="tbRating" Width="200" Margin="0,0,0,10"/>
                 <TextBox x:Name="tbPhone" Width="200" Margin="0,0,0,10" />
                 <TextBox x:Name="tbEmail" Width="200" Margin="0,0,0,10" />
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0">
-                    <Button Content="Сохранить" x:Name="btnSave" Click="btnSave_Click" Margin="0,0,40,0" Width="80" Height="30"/>
-                    <Button Content="Удалить" x:Name="btnDelete" Click="btnDelete_Click" Width="80" Height="30"/>
+                    <Button Content="Сохранить" x:Name="btnSave" Click="btnSave_Click" Width="80" Height="30"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
+        <GroupBox Grid.Column="2" Header="Заказы" Margin="10" FontSize="14">
+            <DataGrid x:Name="dgPartnerProducts" AutoGenerateColumns="False" CanUserAddRows="True" Margin="5" PreviewKeyDown="dgPartnerProducts_PreviewKeyDown">
+                <DataGrid.Columns>
+                    <DataGridComboBoxColumn Header="Продукция" Width="*" x:Name="dgColProducts" SelectedValueBinding="{Binding ProductId, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Id" DisplayMemberPath="ProductName"/>
+                    <DataGridTextColumn Header="Количество" Width="150" Binding="{Binding ProductCount, UpdateSourceTrigger=PropertyChanged}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        
     </Grid>
 </Page>

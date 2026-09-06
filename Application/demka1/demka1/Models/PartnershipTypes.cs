@@ -26,4 +26,11 @@ namespace demka1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Partners> Partners { get; set; }
     }
+    public class PartnerOrdersVM
+    {
+        public Partners Partner {  get; set; }
+        public decimal TotalPrice { get; set; }
+
+        public List<PartnerProducts> Orders { get; set; }
+    }
 }

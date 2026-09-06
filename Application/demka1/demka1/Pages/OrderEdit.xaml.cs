@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.Entity;
+using System.Collections.ObjectModel;
 
 namespace demka1.Pages
 {
@@ -26,11 +27,14 @@ namespace demka1.Pages
         private Partners _partner;
         private bool IsNew;
         private gb_de1Entities db = gb_de1Entities.GetContext();
+        private List<PartnerProducts> _delProducts = new List<PartnerProducts>();
+        private ObservableCollection<PartnerProducts> _partnerProductsList;
         public OrderEdit(PartnerProducts order)
         {
             InitializeComponent();
             _order = order;
             LoadCMB();
+            //Проверка на то что нам нужно сделать(редактировать или добавить)
             IsNew = _order == null;
             if (IsNew)
             {
@@ -41,7 +45,22 @@ namespace demka1.Pages
                 _partner = db.Partners.FirstOrDefault(p => p.Id == _order.PartnerId);
                 LoadOrder();
             }
+
+            InitPartnerProducts();
         }
+        //Инициализация списка продукции которую заказал партнер
+        private void InitPartnerProducts()
+        {
+            if(!IsNew && _partner != null)
+            {
+                var list = db.PartnerProducts.Where(pp => pp.PartnerId == _partner.Id).ToList();
+
+                _partnerProductsList = new ObservableCollection<PartnerProducts>(list);
+            }
+
+            dgPartnerProducts.ItemsSource = _partnerProductsList;
+        }
+        //Загрузка всех данных для комбобоксов
         private void LoadCMB()
         {
             var partnershipTypesList = db.PartnershipTypes.ToList();
@@ -60,7 +79,10 @@ namespace demka1.Pages
             cmbCity.DisplayMemberPath = "CityName";
             cmbCity.SelectedValuePath = "Id";
 
+            dgColProducts.ItemsSource = db.Products.ToList();
+
         }
+        //Загрузка данных партнера
         private void LoadOrder()
         {
             tbPartnerName.Text = _partner.Name;
@@ -78,6 +100,7 @@ namespace demka1.Pages
             cmbRegion.SelectedValue = _partner.RegionId.ToString();
             cmbCity.SelectedValue = _partner.CityId.ToString();
         }
+        //Сохранение в бд
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -105,7 +128,19 @@ namespace demka1.Pages
                 _partner.RegisterAddressHouse = tbHouse.Text;
                 if (int.TryParse(tbRating.Text, out int parsedRating))
                 {
-                    _partner.Rating = parsedRating;
+                    if (parsedRating >= 0)
+                    {
+                        _partner.Rating = parsedRating;
+                    }
+                    else
+                    {
+                        throw new Exception("Рейтинг не может быть отрицательным!");
+                        
+                    }
+                }
+                else
+                {
+                    throw new Exception("Рейтинг должен быть целым числом!");
                 }
 
                 _partner.Phone = tbPhone.Text;
@@ -121,18 +156,57 @@ namespace demka1.Pages
                     db.Entry(_partner).State = EntityState.Modified;
                     MessageBox.Show("Партнер успешно обновлен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
+                db.SaveChanges();// Сохранили чтобы у нового партнера появился id
+
+                foreach (var deletedItem in _delProducts)
+                {
+                    var itemInDB = db.PartnerProducts.Find(deletedItem.Id);
+
+                    if (itemInDB != null)
+                    {
+                        db.PartnerProducts.Remove(itemInDB);
+                    }
+                }
+                //Обрабатываем заказы из DG и сохраняем их в PartnerProducts
+                foreach (var item in _partnerProductsList)
+                {
+                    if (item.ProductId == 0) continue;
+
+                    item.PartnerId = _partner.Id;
+                    if(item.Id == 0)
+                    {
+                        db.PartnerProducts.Add(item);
+                    }
+                    else
+                    {
+                        db.Entry(item).State = EntityState.Modified;
+                    }
+
+                }
+
                 db.SaveChanges();
                 NavigationService.Navigate(new OrderList());
             }
             catch(Exception ex)
             {
-                MessageBox.Show($"{ex.Message}, Детали: {ex.InnerException?.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        //Если нажали Delete для удаления строки в DG, то она удалится из БД, а не только из DG
+        private void dgPartnerProducts_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.Delete)
+            {
+                var selectedItem = dgPartnerProducts.SelectedItem as PartnerProducts;
 
+                if (selectedItem != null)
+                {
+                    if (selectedItem.Id > 0)
+                    {
+                        _delProducts.Add(selectedItem);
+                    }
+                }
+            }
         }
     }
 }

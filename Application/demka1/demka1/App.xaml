@@ -1,0 +1,15 @@
+﻿<Application x:Class="demka1.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:demka1"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <SolidColorBrush x:Key="MainBackground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="SecondaryBackground" Color="#BBDCFA"/>
+        <SolidColorBrush x:Key="AccentActionBackground" Color="#0C4882"/>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Bahnschrift Light SemiCondensed"/>
+        </Style>
+    </Application.Resources>
+</Application>

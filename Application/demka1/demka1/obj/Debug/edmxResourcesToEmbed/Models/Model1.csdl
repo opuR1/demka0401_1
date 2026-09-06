@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="gb_de1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Cities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CityName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Partners" Relationship="Self.FK__Partners__CityId__75A278F5" FromRole="Cities" ToRole="Partners" />
+  </EntityType>
+  <EntityType Name="MaterialTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MaterialType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="DefectRate" Type="Decimal" Precision="5" Scale="2" />
+  </EntityType>
+  <EntityType Name="PartnerProducts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="PartnerId" Type="Int32" Nullable="false" />
+    <Property Name="ProductCount" Type="Int32" />
+    <NavigationProperty Name="Partners" Relationship="Self.FK__PartnerPr__Partn__797309D9" FromRole="PartnerProducts" ToRole="Partners" />
+    <NavigationProperty Name="Products" Relationship="Self.FK__PartnerPr__Produ__787EE5A0" FromRole="PartnerProducts" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Partners">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PartnershipId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="DirectorLN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="DirectorFN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="DirectorMN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="35" FixedLength="false" Unicode="true" />
+    <Property Name="RegisterAddressIndex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RegionId" Type="Int32" Nullable="false" />
+    <Property Name="CityId" Type="Int32" Nullable="false" />
+    <Property Name="RegisterAddressStreet" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="RegisterAddressHouse" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="INN" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Rating" Type="Int32" />
+    <NavigationProperty Name="Cities" Relationship="Self.FK__Partners__CityId__75A278F5" FromRole="Partners" ToRole="Cities" />
+    <NavigationProperty Name="PartnerProducts" Relationship="Self.FK__PartnerPr__Partn__797309D9" FromRole="Partners" ToRole="PartnerProducts" />
+    <NavigationProperty Name="PartnershipTypes" Relationship="Self.FK__Partners__Partne__73BA3083" FromRole="Partners" ToRole="PartnershipTypes" />
+    <NavigationProperty Name="Regions" Relationship="Self.FK__Partners__Region__74AE54BC" FromRole="Partners" ToRole="Regions" />
+  </EntityType>
+  <EntityType Name="PartnershipTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Partners" Relationship="Self.FK__Partners__Partne__73BA3083" FromRole="PartnershipTypes" ToRole="Partners" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductTypeId" Type="Int32" Nullable="false" />
+    <Property Name="ProductName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="ItemNumber" Type="Int32" />
+    <Property Name="MinimalPrice" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="PartnerProducts" Relationship="Self.FK__PartnerPr__Produ__787EE5A0" FromRole="Products" ToRole="PartnerProducts" />
+    <NavigationProperty Name="ProductTypes" Relationship="Self.FK__Products__Produc__6B24EA82" FromRole="Products" ToRole="ProductTypes" />
+  </EntityType>
+  <EntityType Name="ProductTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="TypeCoef" Type="Decimal" Precision="5" Scale="2" />
+    <NavigationProperty Name="Products" Relationship="Self.FK__Products__Produc__6B24EA82" FromRole="ProductTypes" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Regions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RegionName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Partners" Relationship="Self.FK__Partners__Region__74AE54BC" FromRole="Regions" ToRole="Partners" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK__Partners__CityId__75A278F5">
+    <End Role="Cities" Type="Self.Cities" Multiplicity="1" />
+    <End Role="Partners" Type="Self.Partners" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cities">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Partners">
+        <PropertyRef Name="CityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PartnerPr__Partn__797309D9">
+    <End Role="Partners" Type="Self.Partners" Multiplicity="1" />
+    <End Role="PartnerProducts" Type="Self.PartnerProducts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Partners">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PartnerProducts">
+        <PropertyRef Name="PartnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PartnerPr__Produ__787EE5A0">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="PartnerProducts" Type="Self.PartnerProducts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PartnerProducts">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Partners__Partne__73BA3083">
+    <End Role="PartnershipTypes" Type="Self.PartnershipTypes" Multiplicity="1" />
+    <End Role="Partners" Type="Self.Partners" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PartnershipTypes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Partners">
+        <PropertyRef Name="PartnershipId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Partners__Region__74AE54BC">
+    <End Role="Regions" Type="Self.Regions" Multiplicity="1" />
+    <End Role="Partners" Type="Self.Partners" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Regions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Partners">
+        <PropertyRef Name="RegionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Products__Produc__6B24EA82">
+    <End Role="ProductTypes" Type="Self.ProductTypes" Multiplicity="1" />
+    <End Role="Products" Type="Self.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductTypes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="ProductTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="gb_de1Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cities" EntityType="Self.Cities" />
+    <EntitySet Name="MaterialTypes" EntityType="Self.MaterialTypes" />
+    <EntitySet Name="PartnerProducts" EntityType="Self.PartnerProducts" />
+    <EntitySet Name="Partners" EntityType="Self.Partners" />
+    <EntitySet Name="PartnershipTypes" EntityType="Self.PartnershipTypes" />
+    <EntitySet Name="Products" EntityType="Self.Products" />
+    <EntitySet Name="ProductTypes" EntityType="Self.ProductTypes" />
+    <EntitySet Name="Regions" EntityType="Self.Regions" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <AssociationSet Name="FK__Partners__CityId__75A278F5" Association="Self.FK__Partners__CityId__75A278F5">
+      <End Role="Cities" EntitySet="Cities" />
+      <End Role="Partners" EntitySet="Partners" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PartnerPr__Partn__797309D9" Association="Self.FK__PartnerPr__Partn__797309D9">
+      <End Role="Partners" EntitySet="Partners" />
+      <End Role="PartnerProducts" EntitySet="PartnerProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PartnerPr__Produ__787EE5A0" Association="Self.FK__PartnerPr__Produ__787EE5A0">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="PartnerProducts" EntitySet="PartnerProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Partners__Partne__73BA3083" Association="Self.FK__Partners__Partne__73BA3083">
+      <End Role="PartnershipTypes" EntitySet="PartnershipTypes" />
+      <End Role="Partners" EntitySet="Partners" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Partners__Region__74AE54BC" Association="Self.FK__Partners__Region__74AE54BC">
+      <End Role="Regions" EntitySet="Regions" />
+      <End Role="Partners" EntitySet="Partners" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Products__Produc__6B24EA82" Association="Self.FK__Products__Produc__6B24EA82">
+      <End Role="ProductTypes" EntitySet="ProductTypes" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
